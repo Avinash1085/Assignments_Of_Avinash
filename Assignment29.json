@@ -1,0 +1,803 @@
+{
+	"info": {
+		"_postman_id": "f7d888db-6f57-4ef3-b648-03d8bda1cb9e",
+		"name": "Assignment29",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAccessToken",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://opensource-demo.orangehrmlive.com/index.php/oauth/issueToken",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "queryParams",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "avinash",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "avinash",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer afb699cb981a0ad2918a552f8922598727ea245d",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://opensource-demo.orangehrmlive.com/index.php/oauth/issueToken",
+					"protocol": "https",
+					"host": [
+						"opensource-demo",
+						"orangehrmlive",
+						"com"
+					],
+					"path": [
+						"index.php",
+						"oauth",
+						"issueToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUsers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"var jsonData=JSON.parse(responseBody);\r",
+							"var limit=jsonData.data.length;\r",
+							"// var res = jsonData.data.map(function(v) {\r",
+							"//   console.log(Object.keys(v).length);\r",
+							"//   return Object.keys(v).length;\r",
+							"// });\r",
+							"\r",
+							"// console.log(res);\r",
+							"\r",
+							"for(var i=0;i<limit;i++)\r",
+							"{\r",
+							"pm.environment.set(\"UName\"+\"[\"+i+\"]\",jsonData.data[i].userName);\r",
+							"pm.environment.set(\"Role\"+\"[\"+i+\"]\",jsonData.data[i].userRole);\r",
+							"pm.environment.set(\"Status\"+\"[\"+i+\"]\",jsonData.data[i].status);\r",
+							"pm.environment.set(\"EmpName\"+\"[\"+i+\"]\",jsonData.data[i].employeeName);\r",
+							"pm.environment.set(\"Emp_id\"+\"[\"+i+\"]\",jsonData.data[i].employeeId);\r",
+							"\r",
+							"}\r",
+							"\r",
+							"tests[\"TC_01_Verify that Response code is 200\"]=responseCode.code;\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"tests[\"TC_04_Verify that Response Body has Field 'userName'\"]=responseBody.has(\"userName\");\r",
+							"tests[\"TC_05_Verify that Data[1].UserName='Aatmaram'\"]=jsonData.data[1].userName==\"Aatmaram\";\r",
+							"tests[\"TC_06_Verify that Data[1].UserRole='ESS'\"]=jsonData.data[1].userRole==\"ESS\";\r",
+							"tests[\"TC_07_Verify that Data[1].status='Enabled'\"]=jsonData.data[1].status==\"Enabled\";\r",
+							"tests[\"TC_08_Verify that Data[1].EmployeeName='Alice Duval'\"]=jsonData.data[1].employeeName==\"Alice Duval\";\r",
+							"tests[\"TC_09_Verify that Data[1].EmployeeId='31'\"]=jsonData.data[1].employeeId==\"31\";\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "https://opensource-demo.orangehrmlive.com/index.php/oauth/issueToken",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "queryParams",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "avinash",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "avinash",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer da6e7f6800e76251acf2e45c65995a395709813a",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://opensource-demo.orangehrmlive.com/api/v1/user",
+					"protocol": "http",
+					"host": [
+						"opensource-demo",
+						"orangehrmlive",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrganizationInfo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"pm.environment.set(\"Orgnztn_id\",jsonData.data.id);\r",
+							"pm.environment.set(\"Orgnztn_name\",jsonData.data.name);\r",
+							"pm.environment.set(\"Orgnztn_emlid\",jsonData.data.email);\r",
+							"pm.environment.set(\"Orgnztn_note\",jsonData.data.note);\r",
+							"\r",
+							"tests[\"TC_01_Verify that Responsebody as any resposne code \"]=responseCode.code;\r",
+							"tests[\"TC_01A_Verify that Response code is 200\"]=responseCode.code;\r",
+							"\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"tests[\"TC_04_Verify that Organisation has City='Secaucus'\"]=jsonData.data.city==\"Secaucus\";\r",
+							"tests[\"TC_05_Verify that Organisation has Note='HRM Software'\"]=jsonData.data.note==\"HRM Software\";\r",
+							"tests[\"TC_06_Verify that Organisation has name='OrangeHRM'\"]=jsonData.data.name==\"OrangeHRM\";"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer abb91d0c6e2e4b0460b98c599db3bb0bb16402df",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}api/v1/organization",
+					"host": [
+						"{{url}}api"
+					],
+					"path": [
+						"v1",
+						"organization"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserLogin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"TC_01_Verify that Response code is 200\"]=responseCode.code===200;\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer abb91d0c6e2e4b0460b98c599db3bb0bb16402df",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/api/v1/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PunchIn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"TC_01_Verify that Response code is 200\"]=responseCode.code===200;\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"tests[\"TC_04_Verify that ResposneBody Has Success Text='Successfully Punched In'\"]=jsonData.success=\"Successfully Punched In\";\r",
+							"tests[\"TC_05_Verify that ResposneBody Has Id field\"]=responseBody.has(\"id\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer a3b7339217ca7e5bf5566dce4fe33460ab443388",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 4,\r\n    \"timezone\": \"Europe/London\",\r\n    \"note\": \"Notes Tobe Mentioned\",\r\n    \"datetime\": \"2021-06-04 11:10\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://opensource-demo.orangehrmlive.com/api/v1/employee/6/punch-in",
+					"protocol": "https",
+					"host": [
+						"opensource-demo",
+						"orangehrmlive",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"6",
+						"punch-in"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "timezone",
+							"value": "India/punch-in",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SaveEmployee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"TC_01_Verify that Response code is 200\"]=responseCode.code===200;\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 279d2429761538d7b1892cf92b54e81540bc957d",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"Avinash\",\r\n    \"middleName\": \"Tukaram\",\r\n    \"lastName\": \"Ambavale\",\r\n    \"code\": \"ATA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://opensource-demo.orangehrmlive.com/api/v1/employee/1?firstName=Avinash&middleName=Tukaram&lastName=Ambavale",
+					"protocol": "https",
+					"host": [
+						"opensource-demo",
+						"orangehrmlive",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"1"
+					],
+					"query": [
+						{
+							"key": "firstName",
+							"value": "Avinash"
+						},
+						{
+							"key": "middleName",
+							"value": "Tukaram"
+						},
+						{
+							"key": "lastName",
+							"value": "Ambavale"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EmployeeCustomerField",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"TC_01_Verify that Response code is 200\"]=responseCode.code===200;\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"tests[\"TC_04_Verify that ResponseBody contains Id field\"]=responseBody.has(\"id\");\r",
+							"tests[\"TC_05_Verify that ResponseBody contains Name field\"]=responseBody.has(\"name\");\r",
+							"tests[\"TC_06_Verify that ResponseBody contains Type field\"]=responseBody.has(\"type\");\r",
+							"\r",
+							"tests[\"TC_07_Verify that ResponseBody contains Screen field\"]=responseBody.has(\"screen\");\r",
+							"\r",
+							"tests[\"TC_08_Verify that ResponseBody contains Value field\"]=responseBody.has(\"value\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer abb91d0c6e2e4b0460b98c599db3bb0bb16402df",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://opensource-demo.orangehrmlive.com/api/v1/employee/10/custom-field",
+					"protocol": "https",
+					"host": [
+						"opensource-demo",
+						"orangehrmlive",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"10",
+						"custom-field"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SaveEmployeeWorkExperience",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"TC_01_Verify that Response code is 200\"]=responseCode.code===200;\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"tests[\"TC_04_Verify that ResponseBody contains Id field\"]=responseBody.has(\"id\");\r",
+							"tests[\"TC_05_Verify that ResponseBody contains Name field\"]=responseBody.has(\"name\");\r",
+							"tests[\"TC_06_Verify that ResponseBody contains Type field\"]=responseBody.has(\"type\");\r",
+							"\r",
+							"tests[\"TC_07_Verify that ResponseBody contains Screen field\"]=responseBody.has(\"screen\");\r",
+							"\r",
+							"tests[\"TC_08_Verify that ResponseBody contains Value field\"]=responseBody.has(\"value\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// {\r",
+							"//     \"id\": 2,\r",
+							"//     \"company\": \"TechM\",\r",
+							"//     \"title\": \"Sr.TestEngg\",\r",
+							"//     \"fromDate\": \"2014-12-30\",\r",
+							"//     \"toDate\": \"2020-12-30\",\r",
+							"//     \"comment\": \"Nocomments to put\"\r",
+							"// }\r",
+							"\r",
+							"// Tried with this response body as well\r",
+							"// {\r",
+							"//     \"company\": \"TechM\",\r",
+							"//     \"title\": \"Sr.TestEngg\",\r",
+							"//     \"fromDate\": \"2014-12-30\",\r",
+							"//     \"toDate\": \"2020-12-30\",\r",
+							"//     \"comment\": \"Nocomments to put\"\r",
+							"// }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer abb91d0c6e2e4b0460b98c599db3bb0bb16402df",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 2,\r\n    \"company\": \"TechM\",\r\n    \"title\": \"Sr.TestEngg\",\r\n    \"fromDate\": \"2014-12-30\",\r\n    \"toDate\": \"2020-12-30\",\r\n    \"comment\": \"Nocomments to put\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://opensource-demo.orangehrmlive.com/api/v1/employee/6/work-experience",
+					"protocol": "https",
+					"host": [
+						"opensource-demo",
+						"orangehrmlive",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"6",
+						"work-experience"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TerminateEmployment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"TC_01_Verify that Response code is 200\"]=responseCode.code===200;\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"tests[\"TC_04_Verify that ResponseBody contains Id field\"]=responseBody.has(\"id\");\r",
+							"tests[\"TC_05_Verify that ResponseBody contains Name field\"]=responseBody.has(\"name\");\r",
+							"tests[\"TC_06_Verify that ResponseBody contains Type field\"]=responseBody.has(\"type\");\r",
+							"\r",
+							"tests[\"TC_07_Verify that ResponseBody contains Screen field\"]=responseBody.has(\"screen\");\r",
+							"\r",
+							"tests[\"TC_08_Verify that ResponseBody contains Value field\"]=responseBody.has(\"value\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// {\r",
+							"//     \"id\": 2,\r",
+							"//     \"company\": \"TechM\",\r",
+							"//     \"title\": \"Sr.TestEngg\",\r",
+							"//     \"fromDate\": \"2014-12-30\",\r",
+							"//     \"toDate\": \"2020-12-30\",\r",
+							"//     \"comment\": \"Nocomments to put\"\r",
+							"// }\r",
+							"\r",
+							"// Tried with this response body as well\r",
+							"// {\r",
+							"//     \"company\": \"TechM\",\r",
+							"//     \"title\": \"Sr.TestEngg\",\r",
+							"//     \"fromDate\": \"2014-12-30\",\r",
+							"//     \"toDate\": \"2020-12-30\",\r",
+							"//     \"comment\": \"Nocomments to put\"\r",
+							"// }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 279d2429761538d7b1892cf92b54e81540bc957d",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 10,\r\n    \"date\": \"2021-06-20\",\r\n    \"reason\": \"Un usual behavior\",\r\n    \"note\": \"Against\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://opensource-demo.orangehrmlive.com/api/v1/employee/10/action/terminate",
+					"protocol": "https",
+					"host": [
+						"opensource-demo",
+						"orangehrmlive",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"10",
+						"action",
+						"terminate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteEmpDependents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"TC_01_Verify that Response code is 200\"]=responseCode.code===200;\r",
+							"\r",
+							"pm.test(\"TC_02_Verify that Respose text is 'OK'\", function () {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"});\r",
+							"pm.test(\"TC_03_Verify that Response time is less than 900ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(900);\r",
+							"});\r",
+							"\r",
+							"tests[\"TC_04_Verify that ResponseBody contains Id field\"]=responseBody.has(\"id\");\r",
+							"tests[\"TC_05_Verify that ResponseBody contains Name field\"]=responseBody.has(\"name\");\r",
+							"tests[\"TC_06_Verify that ResponseBody contains Type field\"]=responseBody.has(\"type\");\r",
+							"\r",
+							"tests[\"TC_07_Verify that ResponseBody contains Screen field\"]=responseBody.has(\"screen\");\r",
+							"\r",
+							"tests[\"TC_08_Verify that ResponseBody contains Value field\"]=responseBody.has(\"value\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// {\r",
+							"//     \"id\": 2,\r",
+							"//     \"company\": \"TechM\",\r",
+							"//     \"title\": \"Sr.TestEngg\",\r",
+							"//     \"fromDate\": \"2014-12-30\",\r",
+							"//     \"toDate\": \"2020-12-30\",\r",
+							"//     \"comment\": \"Nocomments to put\"\r",
+							"// }\r",
+							"\r",
+							"// Tried with this response body as well\r",
+							"// {\r",
+							"//     \"company\": \"TechM\",\r",
+							"//     \"title\": \"Sr.TestEngg\",\r",
+							"//     \"fromDate\": \"2014-12-30\",\r",
+							"//     \"toDate\": \"2020-12-30\",\r",
+							"//     \"comment\": \"Nocomments to put\"\r",
+							"// }"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer 279d2429761538d7b1892cf92b54e81540bc957d",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 10,\r\n    \"sequenceNumber\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://opensource-demo.orangehrmlive.com/api/v1/employee/1/dependent",
+					"protocol": "https",
+					"host": [
+						"opensource-demo",
+						"orangehrmlive",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"employee",
+						"1",
+						"dependent"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
