@@ -1,0 +1,649 @@
+{
+	"info": {
+		"_postman_id": "9e4a8b5d-95a1-49a4-8b41-7b761fb7c8d9",
+		"name": "TwitterClassAssessment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetTimeline",
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "tokenSecret",
+							"value": "{{AccessTokenSecret}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "{{APISecretKey}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "{{APIKey}}",
+							"type": "string"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA1",
+							"type": "string"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.twitter.com/1.1/statuses/home_timeline.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"twitter",
+						"com"
+					],
+					"path": [
+						"1.1",
+						"statuses",
+						"home_timeline.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostATweet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"tests[\"TC_01_Verify UserName is correct\"]=jsonData.user.screen_name==\"AmbavaleAvi\";\r",
+							"tests[\"TC_02_Verify Response body has Urls field\"]=responseBody.has(\"urls\");\r",
+							"postman.setNextRequest(\"GetTimelineofSearchedUser\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//Body was not worked as twitter has restricted the posting a tweets via body part, so I have used Query paraeter with ?status=Hi after resource part\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "tokenSecret",
+							"value": "{{AccessTokenSecret}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "{{APISecretKey}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "{{APIKey}}",
+							"type": "string"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA1",
+							"type": "string"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"Hello\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.twitter.com/1.1/statuses/update.json?status=GoodNight",
+					"protocol": "https",
+					"host": [
+						"api",
+						"twitter",
+						"com"
+					],
+					"path": [
+						"1.1",
+						"statuses",
+						"update.json"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "GoodNight"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchUser",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"tests[\"Response Body has field called name\"]=responseBody.has(\"name\");\r",
+							"tests[\"Name is Sachin Tendulkar\"]=jsonData[0].name==\"Sachin Tendulkar\";\r",
+							"\r",
+							"// var limit=jsonData.data.length;\r",
+							"\r",
+							"var limit=4;\r",
+							"\r",
+							"for(var i=0;i<limit;i++)\r",
+							"{\r",
+							"pm.environment.set(\"Name\"+\"[\"+i+\"]\",jsonData[i].name);\r",
+							"pm.environment.set(\"Location\"+\"[\"+i+\"]\",jsonData[i].location);\r",
+							"pm.environment.set(\"ScreenName\"+\"[\"+i+\"]\",jsonData[i].screen_name);\r",
+							"pm.environment.set(\"Description\"+\"[\"+i+\"]\",jsonData[i].description);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "tokenSecret",
+							"value": "{{AccessTokenSecret}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "{{APISecretKey}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "{{APIKey}}",
+							"type": "string"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA1",
+							"type": "string"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.twitter.com/1.1/users/search.json?q=Sachin",
+					"protocol": "https",
+					"host": [
+						"api",
+						"twitter",
+						"com"
+					],
+					"path": [
+						"1.1",
+						"users",
+						"search.json"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "Sachin"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTimelineofSearchedUser",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"tests[\"Verify that Hashtag has text ='WorldEnvironmentDay'\"]=jsonData[0].entities.hashtags.text=\"WorldEnvironmentDay\";\r",
+							"for(var i=0;i<2;i++)\r",
+							"{\r",
+							"    if(jsonData[i].entities.hashtags.text=\"WorldEnvironmentDay\")\r",
+							"    {\r",
+							"        pm.environment.set(\"Text\",jsonData[i].entities.hashtags.text);\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "tokenSecret",
+							"value": "{{AccessTokenSecret}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "{{APISecretKey}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "{{APIKey}}",
+							"type": "string"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA1",
+							"type": "string"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name={{ScreenName[0]}}&user_id=135421739&count=3",
+					"protocol": "https",
+					"host": [
+						"api",
+						"twitter",
+						"com"
+					],
+					"path": [
+						"1.1",
+						"statuses",
+						"user_timeline.json"
+					],
+					"query": [
+						{
+							"key": "screen_name",
+							"value": "{{ScreenName[0]}}"
+						},
+						{
+							"key": "user_id",
+							"value": "135421739"
+						},
+						{
+							"key": "count",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FollowCreateFriendship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"tests[\"screen_name =sachin_rt?\"]=jsonData.screen_name==\"sachin_rt\";\r",
+							"tests[\"Value of ID field in ResponseBody ==Env.Id Value?\"]=jsonData.description==postman.getEnvironmentVariable(\"Description[0]\");\r",
+							"tests[\"Value of Location field in ResponseBody ==Env.location Value?\"]=jsonData.location==postman.getEnvironmentVariable(\"Location[0]\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "tokenSecret",
+							"value": "{{AccessTokenSecret}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "{{APISecretKey}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "{{APIKey}}",
+							"type": "string"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA1",
+							"type": "string"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://api.twitter.com/1.1/friendships/create.json?screen_name={{ScreenName[0]}}&follow=false",
+					"protocol": "https",
+					"host": [
+						"api",
+						"twitter",
+						"com"
+					],
+					"path": [
+						"1.1",
+						"friendships",
+						"create.json"
+					],
+					"query": [
+						{
+							"key": "screen_name",
+							"value": "{{ScreenName[0]}}"
+						},
+						{
+							"key": "follow",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTrend",
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "tokenSecret",
+							"value": "{{AccessTokenSecret}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "{{APISecretKey}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "{{APIKey}}",
+							"type": "string"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA1",
+							"type": "string"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.twitter.com/1.1/trends/place.json?id=3",
+					"protocol": "https",
+					"host": [
+						"api",
+						"twitter",
+						"com"
+					],
+					"path": [
+						"1.1",
+						"trends",
+						"place.json"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTrendsAvailable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData=JSON.parse(responseBody);\r",
+							"\r",
+							"tests[\"TC_01_Response body name field has name in it\"]=responseBody.has(\"name\");\r",
+							"tests[\"TC_02_name of name[0] field is 'Worldwide'?\"]=jsonData[0].name==\"Worldwide\";\r",
+							"\r",
+							"tests[\"TC_03_name of placeType[0].name field is 'Supername'?\"]=jsonData[0].placeType.name==\"Supername\";\r",
+							"\r",
+							"var l=jsonData.length;\r",
+							"for(var i=0;i<l;i++)\r",
+							"{\r",
+							"    if(jsonData[i].country!=\"United Kingdom\")\r",
+							"    {\r",
+							"        pm.environment.set(\"Country[\"+i+\"]\",jsonData[i].country);\r",
+							"        pm.environment.set(\"Name[\"+i+\"]\",jsonData[i].name);\r",
+							"        pm.environment.set(\"URL[\"+i+\"]\",jsonData[i].url);\r",
+							"\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth1",
+					"oauth1": [
+						{
+							"key": "addParamsToHeader",
+							"value": true,
+							"type": "boolean"
+						},
+						{
+							"key": "tokenSecret",
+							"value": "{{AccessTokenSecret}}",
+							"type": "string"
+						},
+						{
+							"key": "token",
+							"value": "{{AccessToken}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerSecret",
+							"value": "{{APISecretKey}}",
+							"type": "string"
+						},
+						{
+							"key": "consumerKey",
+							"value": "{{APIKey}}",
+							"type": "string"
+						},
+						{
+							"key": "signatureMethod",
+							"value": "HMAC-SHA1",
+							"type": "string"
+						},
+						{
+							"key": "version",
+							"value": "1.0",
+							"type": "string"
+						},
+						{
+							"key": "addEmptyParamsToSign",
+							"value": false,
+							"type": "boolean"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.twitter.com/1.1/trends/available.json",
+					"protocol": "https",
+					"host": [
+						"api",
+						"twitter",
+						"com"
+					],
+					"path": [
+						"1.1",
+						"trends",
+						"available.json"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
